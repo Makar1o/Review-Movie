@@ -1,10 +1,21 @@
+"use client";
 import "./globals.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export default function RootLayout() {
+const queryClient = new QueryClient();
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <header className="flex justify-between items-center p-5">
-      <h2>Logo</h2>
-      <button>Add Movie</button>
-    </header>
+    <html lang="en">
+      <body>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </body>
+    </html>
   );
 }

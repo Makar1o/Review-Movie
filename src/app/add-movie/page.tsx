@@ -1,4 +1,4 @@
-import { AddForm } from "@/components/AddForm";
+import { AddForm } from "@/form/AddForm";
 
 export const Page = () => {
   return <AddForm />;

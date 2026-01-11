@@ -25,6 +25,16 @@ export async function POST(request: Request) {
     const collection = db.collection("movies");
     
     const newMovie = await request.json();
+    
+   // validation if title and id are required
+    if (!newMovie.title || !newMovie.id) {
+      return NextResponse.json(
+        { error: "Title and ID are required" },
+        { status: 400 }
+      );
+    }
+    
+    // If validation passed - save the movie
     const result = await collection.insertOne(newMovie);
     
     return NextResponse.json(result, { status: 201 });

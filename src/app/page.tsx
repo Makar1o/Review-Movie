@@ -7,12 +7,28 @@ import Image from "next/image";
 
 export default function Home() {
   const [movies, setMovies] = useState<NormalizedItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const res = await fetch("/api/movies");
-      const data = await res.json();
-      setMovies(data); // зберігаємо у стан
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch("/api/movies");
+        
+        if (!res.ok) {
+          throw new Error("Failed to fetch movies");
+        }
+        
+        const data = await res.json();
+        setMovies(data);
+      } catch (err) {
+        console.error("Error fetching movies:", err);
+        setError("Failed to load movies. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchMovies();
@@ -22,9 +38,12 @@ export default function Home() {
     <div>
       <Header />
       <main className="max-w-4xl mx-auto p-4">
-        {movies.length === 0 ? (
+        {loading && <p className="text-center text-gray-500">Loading...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+        {!loading && !error && movies.length === 0 && (
           <p className="text-center text-gray-500">No movies yet.</p>
-        ) : (
+        )}
+        {!loading && !error && movies.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {movies.map((movie) => (
               <div key={movie.id} className="border rounded-lg p-2 shadow">
@@ -32,8 +51,8 @@ export default function Home() {
                   <Image
                     src={movie.poster}
                     alt={movie.title}
-                    width={92}
-                    height={138}
+                    width={300}
+                    height={450}
                     className="w-full h-48 object-cover rounded"
                   />
                 )}

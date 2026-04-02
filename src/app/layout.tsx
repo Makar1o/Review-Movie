@@ -12,6 +12,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {/* comment */}
         <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { NormalizedItem } from "../app/types";
@@ -66,6 +67,9 @@ export default function Home() {
             ))}
           </div>
         )}
+        <Link href="state">
+        <button>State</button>
+        </Link>
       </main>
     </div>
   );

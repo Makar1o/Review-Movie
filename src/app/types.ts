@@ -1,3 +1,4 @@
+//types for TMDB API
 export type TMDBItem = {
   id: number;
   media_type?: "movie" | "tv" | "person" | string;
